@@ -101,7 +101,10 @@
             "us-east-1": { "ImageID": "ami-0d5eff06f840b45e9" },
             "us-east-2": { "ImageID": "ami-077e31c4939f6a2f3" },
             "us-west-1": { "ImageID": "ami-04468e03c37242e1e" },
-            "us-west-2": { "ImageID": "ami-0cf6f5c8a62fa5da6" }
+            "us-west-2": { "ImageID": "ami-0cf6f5c8a62fa5da6" },
+	    "eu-west-1": { "ImageID": "ami-063d4ab14480ac177" },
+            "eu-west-2": { "ImageID": "ami-06dc09bb8854cbde3" },
+            "eu-west-3": { "ImageID": "ami-0b3e57ee3b63dd76b" }  
           },      
 		"PAYGRegionMap": {
 			"us-east-1": {				"ImageID": "ami-02ba799fdb5fda694"			},
