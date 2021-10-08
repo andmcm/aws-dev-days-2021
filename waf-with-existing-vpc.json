@@ -61,22 +61,27 @@
       }
     }
   },
-
-
-
+        
+        
 
   "Mappings" : {
     "AmiMap" : {
       "us-east-1": { "ImageID": "ami-0d5eff06f840b45e9" },
       "us-east-2": { "ImageID": "ami-077e31c4939f6a2f3" },
       "us-west-1": { "ImageID": "ami-04468e03c37242e1e" },
-      "us-west-2": { "ImageID": "ami-0cf6f5c8a62fa5da6" }
+      "us-west-2": { "ImageID": "ami-0cf6f5c8a62fa5da6" },
+      "eu-west-1": { "ImageID": "ami-063d4ab14480ac177" },
+      "eu-west-2": { "ImageID": "ami-06dc09bb8854cbde3" },
+      "eu-west-3": { "ImageID": "ami-0b3e57ee3b63dd76b" }  
     },
     "RegionMap" : {
       "us-east-1": { "MapName": "useast1map" },
       "us-east-2": { "MapName": "useast2map" },
       "us-west-1": { "MapName": "uswest1map" },
-      "us-west-2": { "MapName": "uswest2map" }
+      "us-west-2": { "MapName": "uswest2map" },
+      "eu-west-1": { "MapName": "euwest1map" },
+      "eu-west-2": { "MapName": "euwest2map" },
+      "eu-west-3": { "MapName": "euwest3map" }   
     },
     "useast1map" : {
       "BYOL" : { "ImageID": "ami-034543d76ef7650a8" },
@@ -93,11 +98,23 @@
     "uswest2map" : {
       "BYOL" : { "ImageID" : "ami-00940bc5f7caf92b8" },
       "PAYG" : { "ImageID" : "ami-07a03990a907dea03" }
-    }    
+    },
+    "euwest1map" : {
+      "BYOL" : { "ImageID" : "ami-08646fe841b64d6ce" },
+      "PAYG" : { "ImageID" : "ami-0c2ee20b4d2005675" }
+    },
+    "euwest2map" : {
+      "BYOL" : { "ImageID" : "ami-01e69c4baf54bc744" },
+      "PAYG" : { "ImageID" : "ami-024254e7df69f666c" }
+    },
+    "euwest3map" : {
+      "BYOL" : { "ImageID" : "ami-0944be87ea4cbcd2d" },
+      "PAYG" : { "ImageID" : "ami-0596e2065cd63c027" }
+    }
   },
 
 
-
+    
   "Resources" : {
     "WAF" : {
       "Type" : "AWS::EC2::Instance",
