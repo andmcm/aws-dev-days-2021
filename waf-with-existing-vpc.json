@@ -15,8 +15,8 @@
     "InstanceType" : {
       "Description" : "EC2 instance type",
       "Type" : "String",
-      "Default" : "m4.large",
-      "AllowedValues" : [ "m3.medium", "m4.large" ]
+      "Default" : "m5.large",
+      "AllowedValues" : [ "t2.medium", "m5.large" ]
     },
     "AllowedSourceIP" : {
       "Description" : "The IP address range that can access to the EC2 instance.",
