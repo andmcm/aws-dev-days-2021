@@ -11,7 +11,11 @@
     "SubnetId": {
       "Description": "The Id of the subnet in which the WAF is deployed",
       "Type": "AWS::EC2::Subnet::Id"
-    },	
+    },
+	"WAFIP": {
+		"Description" : "Internal IP address for the WAF",
+		"Type" : "String"		
+	},
     "InstanceType" : {
       "Description" : "EC2 instance type",
       "Type" : "String",
@@ -40,8 +44,6 @@
     }
   },
 
-
-
   "Metadata" : {
     "AWS::CloudFormation::Interface" : {
       "ParameterGroups" : [
@@ -61,9 +63,7 @@
       }
     }
   },
-        
-        
-
+   
   "Mappings" : {
     "AmiMap" : {
       "eu-west-1": { "ImageID": "ami-063d4ab14480ac177" },
@@ -88,11 +88,18 @@
       "PAYG" : { "ImageID" : "ami-0596e2065cd63c027" }
     }
   },
-
-
     
   "Resources" : {
-    "WAF" : {
+	"WAFENI" : {
+   "Type" : "AWS::EC2::NetworkInterface",
+   "Properties" : {
+      "Description": "WAF NetworkInterface",
+      "SubnetId":{ "Ref" : "SubnetId" },
+      "PrivateIpAddress": { "Ref" : "WAFIP" },
+      "GroupSet": [{ "Fn::GetAtt" : ["BWAFsecRuleGroup", "GroupId"] }]
+      }
+},
+	"WAF" : {
       "Type" : "AWS::EC2::Instance",
       "Properties" : {
         "InstanceType" : { "Ref" : "InstanceType" },
@@ -100,12 +107,10 @@
           "Key": "Name",  
           "Value": "Barracuda WAF"
           } ],
-  		  "NetworkInterfaces": [ { 
-	  		"DeviceIndex": "0", 
-		  	"AssociatePublicIpAddress": true, 
-			  "SubnetId": { "Ref": "SubnetId" }, 
-			  "GroupSet": [{ "Fn::GetAtt" : ["BWAFsecRuleGroup", "GroupId"] }]
-			  } ],
+  		  "NetworkInterfaces": [ {
+		    "NetworkInterfaceId" : { "Ref" : "WAFENI" }, 
+			"DeviceIndex": "0"
+			  } ], 
         "ImageId" : { 
           "Fn::FindInMap" : [ {
             "Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "MapName" ] },
@@ -144,10 +149,19 @@
                     "systemctl enable docker 2>&1 >> /var/log/install.log",
                     "systemctl start docker 2>&1 >> /var/log/install.log",
                     "echo 'Before docker run...' >> /var/log/install.log",
-	            "docker run -d --restart unless-stopped -p 8000:80 bwolmarans/badstore 2>&1 >> /var/log/install.log",
-                    "docker run -d --restart unless-stopped -p 8080:8080 swaggerapi/petstore3 2>&1 >> /var/log/install.log", 
-                    "echo 'After docker run...' >> /var/log/install.log",
-                    "/opt/aws/bin/cfn-signal -e $? ",
+					          "docker run -d --restart unless-stopped -p 8000:80 bwolmarans/badstore 2>&1 >> /var/log/install.log",
+					          "docker run -d --restart unless-stopped -p 8080:8080 swaggerapi/petstore3 2>&1 >> /var/log/install.log", 
+					          "echo 'After docker run...' >> /var/log/install.log",
+					          "yum -y install amazon-linux-extras git python3 python2-pip",
+					          "dir=$(pwd)",
+					          {"Fn::Join": ["",["export WAFIP=", { "Ref" : "WAFIP" }] ] },
+					          {"Fn::Join": ["",["export WAFPASSWORD=", { "Ref" : "WAF" }] ] },
+					          "git clone https://github.com/mercutioviz/aws-dev-days-2021.git",
+					          "touch /tmp/withwaf.txt",
+					          "cd $dir/aws-dev-days-2021/",
+					          "pip3 install --user -r requirements.txt",
+					          "python3 -u waf_configuration.py 2>&1 >> /var/log/install.log",
+					          "/opt/aws/bin/cfn-signal -e $? ",
                     "         --stack ",
                     {
                         "Ref": "AWS::StackName"
@@ -265,11 +279,21 @@
         "FromPort": "443",
         "ToPort": "443",
         "CidrIp": "0.0.0.0/0"
-      }
+       }
+      },
+      "BWAFSecurityGroupRule5": {
+        "Type": "AWS::EC2::SecurityGroupIngress",
+        "Properties": {
+          "GroupId": {
+            "Ref": "BWAFsecRuleGroup"
+          },
+          "IpProtocol": "tcp",
+          "FromPort": "8080",
+          "ToPort": "8080",
+          "CidrIp": "0.0.0.0/0"
     }
+  }
  },
-
-
 
   "Outputs" : {
     "PublicDNSName" : {
