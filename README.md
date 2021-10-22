@@ -8,19 +8,19 @@ Organizations are adopting infrastructure as code to be more agile to business r
 ## Deploy a Barracuda Web Application Firewall (WAF) with a test web server
 
 ### "Quickstart" Install - CFT deploys completely new VPC and subnets
-#### Use this [template URL](https://barracuda-dev-days.s3-us-west-2.amazonaws.com/waf-new-vpc.json) when deploying the CloudFormation Stack.
+#### Use this [template URL](https://barracuda-dev-days-emea.s3.eu-west-1.amazonaws.com/waf-new-vpc.json) when deploying the CloudFormation Stack.
 
 ### "Custom" Install - Choose existing VPC and subnet
-#### Use this [template URL](https://barracuda-dev-days.s3-us-west-2.amazonaws.com/waf-with-existing-vpc.json) when deploying the CloudFormation Stack.
+#### Use this [template URL](https://barracuda-dev-days-emea.s3.eu-west-1.amazonaws.com/waf-with-existing-vpc.json) when deploying the CloudFormation Stack.
 
 ## Prerequisites
 * AWS account with sufficient access to deploy virtual machines
 * Key pair for the region into which you will deploy
-* Must deploy in one of the US regions
-** us-east-1 (N. Virginia)
-** us-east-2 (Ohio)
-** us-west-1 (N. California)
-** us-west-2 (Oregon)
+* Must deploy in one of the Europe regions
+** eu-west-1 (Ireland)
+** eu-west-2 (London)
+** eu-west-3 (Paris)
+
 
 ## Cost considerations
 ### These CFTs _will_ deploy resources that incur cost. Note that using PAYG vs. BYOL will simplify the installation process but has a significantly higher cost. A Barracuda representative or partner can assist with acquiring an evaluation license.
